@@ -13,117 +13,36 @@
 
 <style>
 /* Video de fondo */
-#fondoVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  z-index: -2;
-}
+#fondoVideo { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; object-fit: cover; z-index: -2; }
 
-/* Overlay para mejorar legibilidad */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2); 
-  backdrop-filter: blur(5px);
-  z-index: -1;
-}
+/* Overlay */
+.overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); z-index:-1; }
 
 /* Contenedor principal */
-body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  text-align: center;
-  padding: 1rem;
-  color: #960018;
-}
+body { margin:0; font-family:'Montserrat', sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; text-align:center; padding:1rem; color:#960018; }
 
-/* Tarjeta de invitación */
-.card-romantica {
-  max-width: 600px;
-  background: rgba(255, 255, 255, 0.85);
-  border-radius: 25px;
-  padding: 2rem;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-  animation: fadeIn 2s ease-in-out;
-}
-
-/* Títulos */
-h1 {
-  font-family: 'Great Vibes', cursive;
-  font-size: 3rem;
-  margin-bottom: 0.2rem;
-  color: #be185d;
-}
-h2 {
-  font-family: 'Dancing Script', cursive;
-  font-size: 2rem;
-  margin-top: 0;
-  color: #6b21a8;
-}
-
-/* Separadores decorativos */
-.separador {
-  border: 0;
-  height: 2px;
-  width: 80%;
-  margin: 2rem auto;
-  background: linear-gradient(to right, transparent, #ec4899, transparent);
-}
-
-/* Contador */
-.contador {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 1rem 0;
-}
+/* Tarjeta */
+.card-romantica { max-width:600px; background: rgba(255,255,255,0.85); border-radius:25px; padding:2rem; box-shadow:0 8px 25px rgba(0,0,0,0.25); animation: fadeIn 2s ease-in-out; }
+h1 { font-family:'Great Vibes', cursive; font-size:3rem; margin-bottom:0.2rem; color:#be185d; }
+h2 { font-family:'Dancing Script', cursive; font-size:2rem; margin-top:0; color:#6b21a8; }
+h3 { font-family:'Dancing Script', cursive; font-size:1.5rem; margin-top:0.5rem; color:#960018; }
+.separador { border:0; height:2px; width:80%; margin:2rem auto; background: linear-gradient(to right, transparent, #ec4899, transparent); }
+.contador { font-size:1.2rem; font-weight:bold; margin:1rem 0; }
 
 /* Botones */
-.btn {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.1rem;
-  color: #fff;
-  background: linear-gradient(45deg, #ec4899, #f9a8d4);
-  border: none;
-  padding: 0.8rem 1.6rem;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  margin-top: 1rem;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
+.btn { font-family:'Dancing Script', cursive; font-size:1.1rem; color:#fff; background:linear-gradient(45deg, #ec4899, #f9a8d4); border:none; padding:0.8rem 1.6rem; border-radius:999px; cursor:pointer; box-shadow:0 6px 15px rgba(0,0,0,0.2); margin-top:1rem; transition: transform 0.3s, box-shadow 0.3s; text-decoration:none; display:inline-block; }
+.btn:hover { transform: scale(1.08); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
 /* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
 
 /* Responsive */
-@media (max-width: 768px) {
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 1.5rem; }
-  .card-romantica { padding: 1.5rem; }
-}
+@media (max-width:768px) { h1{font-size:2.2rem;} h2{font-size:1.5rem;} .card-romantica{padding:1.5rem;} }
 </style>
 </head>
 <body>
 
-<!-- Video de fondo silencioso -->
+<!-- Video de fondo -->
 <video autoplay muted loop id="fondoVideo">
   <source src="video-fondo.mp4" type="video/mp4">
   Tu navegador no soporta videos HTML5
@@ -131,20 +50,17 @@ h2 {
 
 <div class="overlay"></div>
 
-<!-- Tarjeta de invitación -->
+<!-- Tarjeta -->
 <div class="card-romantica">
   <h1>Jonatan & Ludmila</h1>
   <h2><i class="fa-solid fa-heart"></i> ¡Nos casamos! <i class="fa-solid fa-heart"></i></h2>
 
   <hr class="separador">
-
   <p class="contador">Faltan: <span id="contador"></span></p>
-
   <hr class="separador">
 
   <h2>Hola, los invitamos a nuestra boda</h2>
-
-  <h3>Adrian, Valeria, Juan y Alma</h3>
+  <h3 id="nombreInvitado">Invitado</h3>
 
   <!-- Selección de invitados -->
   <p>¿Cuántos asistirán?</p>
@@ -157,92 +73,99 @@ h2 {
 
   <br><br>
 
-  <!-- Botón para confirmar asistencia -->
+  <!-- Botón confirmar -->
   <button class="btn" id="btnConfirmar">💌 Confirmar Asistencia</button>
-
   <br><br>
 
-  <!-- Botón de ubicación -->
-  <a href="https://maps.app.goo.gl/dE5ZwpyMcKssvmyQ6" target="_blank" class="btn">📍 Ver Ubicación del Salón</a>
-
-  <br><br>
-
-  <!-- Botón de música -->
+  <!-- Botón música -->
   <button class="btn" id="btnMusica">🎵 Reproducir Música</button>
+  <br><br>
+
+  <!-- Botón ubicación -->
+  <a href="https://maps.app.goo.gl/dE5ZwpyMcKssvmyQ6" target="_blank" class="btn">📍 Ver Ubicación del Salón</a>
 </div>
 
-<!-- Música separada -->
+<!-- Música -->
 <audio id="musicaFondo" loop>
   <source src="a-thousand-years.mp3" type="audio/mp3">
 </audio>
 
-<!-- Firebase y funciones -->
+<!-- Firebase -->
 <script type="module">
-  // Firebase App (core)
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCH6S96lGMbUManPhCkXqHFQGPCdJ_7hkg",
-    authDomain: "invitacion-boda-14.firebaseapp.com",
-    projectId: "invitacion-boda-14",
-    storageBucket: "invitacion-boda-14.firebasestorage.app",
-    messagingSenderId: "792408500001",
-    appId: "1:792408500001:web:7c0998db3821fe03280060"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCH6S96lGMbUManPhCkXqHFQGPCdJ_7hkg",
+  authDomain: "invitacion-boda-14.firebaseapp.com",
+  projectId: "invitacion-boda-14",
+  storageBucket: "invitacion-boda-14.appspot.com",
+  messagingSenderId: "792408500001",
+  appId: "1:792408500001:web:7c0998db3821fe03280060"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  // Contador de días
-  const fechaBoda = new Date("Feb 14, 2026 18:00:00").getTime();
-  const contador = document.getElementById("contador");
+// Función para obtener ID de URL
+function getIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id'); // ?id=abc123
+}
 
-  setInterval(() => {
-    const ahora = new Date().getTime();
-    const diff = fechaBoda - ahora;
+const idInvitado = getIdFromUrl();
+const nombreInvitadoH3 = document.getElementById('nombreInvitado');
 
-    const meses = Math.floor(diff / (1000*60*60*24*30));
-    const dias = Math.floor((diff % (1000*60*60*24*30)) / (1000*60*60*24));
-    const horas = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-    const minutos = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const segundos = Math.floor((diff % (1000*60)) / 1000);
-
-    contador.innerHTML = `${meses} meses ${dias} días ${horas}h ${minutos}m ${segundos}s`;
-  }, 1000);
-
-  // Música
-  const btnMusica = document.getElementById("btnMusica");
-  const musica = document.getElementById("musicaFondo");
-  btnMusica.addEventListener("click", () => {
-    if (musica.paused) {
-      musica.play();
-      btnMusica.innerText = "⏸ Pausar Música";
+// Obtener datos del invitado
+if(idInvitado){
+  const docRef = doc(db, "confirmaciones", idInvitado);
+  getDoc(docRef).then((docSnap) => {
+    if(docSnap.exists()){
+      nombreInvitadoH3.innerText = docSnap.data().nombre;
     } else {
-      musica.pause();
-      btnMusica.innerText = "🎵 Reproducir Música";
+      nombreInvitadoH3.innerText = "Invitado";
     }
   });
+}
 
-  // Confirmar asistencia (Firebase)
-  const btnConfirmar = document.getElementById("btnConfirmar");
-  btnConfirmar.addEventListener("click", async () => {
-    const cantidad = document.getElementById("invitadosSelect").value;
-    try {
-      await addDoc(collection(db, "confirmaciones"), {
-        cantidad: parseInt(cantidad),
-        fecha: serverTimestamp()
-      });
-      alert(`¡Gracias! Confirmaste asistencia para ${cantidad} persona(s).`);
-    } catch(e) {
-      console.error("Error guardando confirmación:", e);
-      alert("Hubo un error. Intenta de nuevo.");
-    }
-  });
+// Contador de días
+const fechaBoda = new Date("Feb 14, 2026 18:00:00").getTime();
+const contador = document.getElementById("contador");
+setInterval(() => {
+  const ahora = new Date().getTime();
+  const diff = fechaBoda - ahora;
+  const meses = Math.floor(diff / (1000*60*60*24*30));
+  const dias = Math.floor((diff % (1000*60*60*24*30)) / (1000*60*60*24));
+  const horas = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const minutos = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const segundos = Math.floor((diff % (1000*60)) / 1000);
+  contador.innerHTML = `${meses} meses ${dias} días ${horas}h ${minutos}m ${segundos}s`;
+}, 1000);
+
+// Botón música
+const btnMusica = document.getElementById("btnMusica");
+const musica = document.getElementById("musicaFondo");
+btnMusica.addEventListener("click", ()=>{
+  if(musica.paused){ musica.play(); btnMusica.innerText="⏸ Pausar Música"; }
+  else { musica.pause(); btnMusica.innerText="🎵 Reproducir Música"; }
+});
+
+// Confirmar asistencia
+const btnConfirmar = document.getElementById("btnConfirmar");
+btnConfirmar.addEventListener("click", async ()=>{
+  const invitados = document.getElementById("invitadosSelect").value;
+  if(idInvitado){
+    const docRef = doc(db, "confirmaciones", idInvitado);
+    await setDoc(docRef, { nombre: nombreInvitadoH3.innerText, invitados: Number(invitados), confirmado: true, timestamp: serverTimestamp() }, { merge: true });
+    alert(`¡Gracias! Confirmaste asistencia para ${invitados} persona(s).`);
+  } else {
+    alert("No se pudo identificar tu invitación.");
+  }
+});
 </script>
-
 </body>
 </html>
+
 
 
 
