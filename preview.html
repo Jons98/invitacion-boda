@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitación de Boda</title>
+
+<!-- Fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Great+Vibes&family=Montserrat&display=swap" rel="stylesheet">
+
+<!-- Iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* Video de fondo */
+#fondoVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* Overlay para mejorar legibilidad */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(5px);
+  z-index: -1;
+}
+
+/* Contenedor principal */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 1rem;
+  color: #960018;
+}
+
+/* Tarjeta de invitación */
+.card-romantica {
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 25px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Títulos */
+h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  margin-bottom: 0.2rem;
+  color: #be185d;
+}
+h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  margin-top: 0;
+  color: #6b21a8;
+}
+
+/* Separadores decorativos */
+.separador {
+  border: 0;
+  height: 2px;
+  width: 80%;
+  margin: 2rem auto;
+  background: linear-gradient(to right, transparent, #ec4899, transparent);
+}
+
+/* Contador */
+.contador {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+/* Botones */
+.btn {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.1rem;
+  color: #fff;
+  background: linear-gradient(45deg, #ec4899, #f9a8d4);
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  margin-top: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.5rem; }
+  .card-romantica { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Video de fondo silencioso -->
+<video autoplay muted loop id="fondoVideo">
+  <source src="video-fondo.mp4" type="video/mp4">
+  Tu navegador no soporta videos HTML5
+</video>
+
+<div class="overlay"></div>
+
+<!-- Tarjeta de invitación -->
+<div class="card-romantica">
+  <h1>Adrián & Valeria</h1>
+  <h2><i class="fa-solid fa-heart"></i> ¡Nos casamos! <i class="fa-solid fa-heart"></i></h2>
+
+  <hr class="separador">
+
+  <p class="contador">Faltan: <span id="contador"></span></p>
+
+  <hr class="separador">
+
+  <!-- Selección de invitados -->
+  <p>¿Cuántos asistirán?</p>
+  <select id="invitadosSelect">
+    <option value="1">1 Persona</option>
+    <option value="2">2 Personas</option>
+    <option value="3">3 Personas</option>
+    <option value="4">4 Personas</option>
+    <option value="5">5 Personas</option>
+    <option value="6">6 Personas</option>
+    <option value="7">7 Personas</option>
+  </select>
+
+  <br><br>
+
+  <!-- Botón para confirmar asistencia -->
+  <button class="btn" id="btnConfirmar">💌 Confirmar Asistencia</button>
+
+  <br><br>
+
+  <!-- Botón de ubicación -->
+  <button class="btn" id="btnUbicacion" onclick="abrirUbicacion()">
+    📍 Ver Ubicación del Salón
+  </button>
+
+  <br>
+
+  <!-- Botón de música -->
+  <button class="btn" id="btnMusica">🎵 Reproducir Música</button>
+</div>
+
+<!-- Música separada -->
+<audio id="musicaFondo" loop>
+  <source src="a-thousand-years.mp3" type="audio/mp3">
+</audio>
+
+<script>
+// Contador de días
+const fechaBoda = new Date("Feb 14, 2026 18:00:00").getTime();
+const contador = document.getElementById("contador");
+
+setInterval(() => {
+  const ahora = new Date().getTime();
+  const diff = fechaBoda - ahora;
+
+  const meses = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+  const dias = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+
+  contador.innerHTML = `${meses} meses ${dias} días ${horas}h ${minutos}m ${segundos}s`;
+}, 1000);
+
+// Botón de música
+const btnMusica = document.getElementById("btnMusica");
+const musica = document.getElementById("musicaFondo");
+
+btnMusica.addEventListener("click", () => {
+  if (musica.paused) {
+    musica.play();
+    btnMusica.innerText = "⏸ Pausar Música";
+  } else {
+    musica.pause();
+    btnMusica.innerText = "🎵 Reproducir Música";
+  }
+});
+
+// Confirmar asistencia
+const btnConfirmar = document.getElementById('btnConfirmar');
+btnConfirmar.addEventListener('click', () => {
+    const cantidad = document.getElementById('invitadosSelect').value;
+    alert(`¡Gracias! Confirmaste asistencia para ${cantidad} persona(s).`);
+    // Aquí podés enviar esta info a tu base de datos
+});
+
+// Abrir ubicación en Google Maps
+function abrirUbicacion() {
+    window.open("https://www.google.com/maps/place/TU+SALON", "_blank");
+}
+</script>
+
+</body>
+</html>
