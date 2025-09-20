@@ -1,119 +1,134 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invitación</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f8f8f8, #ffe6e6);
-      color: #333;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invitación de Boda</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script> <!-- Para iconos de corazón -->
+<style>
+    /* Reset y estilos generales */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; font-family: 'Dancing Script', cursive; overflow: hidden; }
+    body { display: flex; justify-content: center; align-items: center; background: #fce4ec; }
 
-    h1 {
-      color: #b30000;
-    }
+    /* Video de fondo */
+    #video-bg { position: fixed; top:0; left:0; width:100%; height:100%; object-fit: cover; z-index:-2; }
 
-    h3 {
-      font-size: 1.2rem;
-      margin: 10px 0;
-      color: #b30000;
-    }
+    /* Overlay */
+    .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(255,255,255,0.4); z-index:-1; }
 
-    select {
-      padding: 8px;
-      font-size: 1rem;
-      border: 1px solid #b30000;
-      border-radius: 5px;
-      margin: 10px 0;
-    }
+    /* Tarjeta romántica */
+    .card-romantica { text-align: center; color: #960018; padding: 30px; background: rgba(255,255,255,0.7); border-radius: 25px; max-width: 600px; }
 
-    button {
-      background-color: #b30000;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+    h1 { font-size: 3rem; margin-bottom: 10px; }
+    h2 { font-size: 2rem; margin: 10px 0; }
+    h3 { font-size: 1.5rem; margin: 10px 0; }
+    p { font-size: 1.2rem; }
 
-    button:hover {
-      background-color: #800000;
-    }
-  </style>
+    .separador { border: 1px solid #960018; margin: 15px 0; }
+
+    /* Botones */
+    .btn { display: inline-block; margin: 10px; padding: 10px 20px; font-size: 1rem; color: #fff; background: #960018; border: none; border-radius: 10px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
+    .btn:hover { background: #d50000; transform: scale(1.05); }
+
+    select { padding: 5px 10px; border-radius: 5px; margin-top: 5px; }
+</style>
 </head>
 <body>
-  <h1>¡Te esperamos en nuestra boda!</h1>
-  <h3 id="nombreInvitado">Invitado</h3>
 
+<!-- Video de fondo -->
+<video id="video-bg" autoplay loop muted>
+    <source src="video-fondo.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- Tarjeta de invitación -->
+<div class="card-romantica">
+  <h1>Jonatan & Ludmila</h1>
+  <h2><i class="fa-solid fa-heart"></i> ¡Nos casamos! <i class="fa-solid fa-heart"></i></h2>
+
+  <hr class="separador">
+
+  <p class="contador">Faltan: <span id="contador"></span></p>
+
+  <hr class="separador">
+
+  <h2>Hola, los invitamos a nuestra boda</h2>
+  <h3>Adrian, Valeria, Juan y Alma</h3>
+
+  <!-- Selección de invitados -->
   <p>¿Cuántos asistirán?</p>
-  <select id="invitadosSelect"></select>
+  <select id="invitadosSelect">
+    <option value="1">1 Persona</option>
+    <option value="2">2 Personas</option>
+    <option value="3">3 Personas</option>
+    <option value="4">4 Personas</option>
+  </select>
 
-  <br>
-  <button id="btnConfirmar">Confirmar asistencia</button>
+  <br><br>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+  <!-- Botón para confirmar asistencia -->
+  <button class="btn" id="btnConfirmar">💌 Confirmar Asistencia</button>
 
-    // 🔹 Configuración Firebase
-    const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_AUTH_DOMAIN",
-      projectId: "TU_PROJECT_ID",
-    };
+  <br><br>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  <!-- Botón música -->
+  <button class="btn" id="btnMusica">🎵 Reproducir Música</button>
 
-    // Obtener ID desde la URL
-    const params = new URLSearchParams(window.location.search);
-    const invitadoID = params.get("id");
+  <!-- Botón ubicación -->
+  <br><br>
+  <a href="https://maps.app.goo.gl/dE5ZwpyMcKssvmyQ6" target="_blank" class="btn">📍 Ver Ubicación del Salón</a>
+</div>
 
-    const nombreInvitado = document.getElementById("nombreInvitado");
-    const select = document.getElementById("invitadosSelect");
+<!-- Música -->
+<audio id="musica" src="a-thousand-years.mp3"></audio>
 
-    async function cargarInvitado() {
-      if (!invitadoID) {
-        nombreInvitado.textContent = "Invitado";
-        return;
-      }
+<script>
+    // Contador de fecha
+    const contador = document.getElementById('contador');
+    const fechaBoda = new Date('February 14, 2026 16:00:00').getTime();
+    setInterval(() => {
+        const ahora = new Date().getTime();
+        const distancia = fechaBoda - ahora;
 
-      const docRef = doc(db, "invitados", invitadoID);
-      const docSnap = await getDoc(docRef);
+        const meses = Math.floor(distancia / (1000*60*60*24*30));
+        const dias = Math.floor((distancia % (1000*60*60*24*30)) / (1000*60*60*24));
+        const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
+        const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
+        const segundos = Math.floor((distancia % (1000*60)) / 1000);
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        nombreInvitado.textContent = data.nombre || "Invitado";
+        contador.innerHTML = `${meses} meses ${dias} días ${horas}h ${minutos}m ${segundos}s`;
+    }, 1000);
 
-        // Generar dinámicamente el select según maxInvitados
-        select.innerHTML = "";
-        const max = data.maxInvitados || 1;
-        for (let i = 1; i <= max; i++) {
-          const option = document.createElement("option");
-          option.value = i;
-          option.textContent = i === 1 ? "1 Persona" : `${i} Personas`;
-          select.appendChild(option);
+    // Botón música
+    const btnMusica = document.getElementById('btnMusica');
+    const musica = document.getElementById('musica');
+    btnMusica.addEventListener('click', () => {
+        if(musica.paused){
+            musica.play();
+            btnMusica.innerText = '🔇 Pausar Música';
+        } else {
+            musica.pause();
+            btnMusica.innerText = '🎵 Reproducir Música';
         }
-      } else {
-        nombreInvitado.textContent = "Invitado";
-      }
-    }
-
-    cargarInvitado();
-
-    document.getElementById("btnConfirmar").addEventListener("click", () => {
-      const cantidad = select.value;
-      alert(`¡Gracias ${nombreInvitado.textContent}! Confirmaste asistencia para ${cantidad} persona(s).`);
-      // 🔹 Aquí después podemos guardar la confirmación en Firestore
     });
-  </script>
+
+    // Botón confirmación (ejemplo básico)
+    const btnConfirmar = document.getElementById('btnConfirmar');
+    btnConfirmar.addEventListener('click', () => {
+        const invitados = document.getElementById('invitadosSelect').value;
+        alert(`¡Gracias por confirmar! Número de invitados: ${invitados}`);
+        // Aquí luego se puede agregar funcionalidad para enviar datos a una base de datos
+    });
+</script>
+
 </body>
 </html>
+
+
+
 
 
 
