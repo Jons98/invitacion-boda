@@ -201,6 +201,7 @@ h3 {
   const invitadoID = urlParams.get('id') || 'fam1'; // default fam1 si no hay ID
 
   const nombreInvitado = document.getElementById('nombreInvitado');
+  const selectInvitados = document.getElementById("invitadosSelect");
 
   async function cargarInvitado() {
     const docRef = doc(db, "invitados", invitadoID);
@@ -208,8 +209,19 @@ h3 {
     if (docSnap.exists()) {
       const data = docSnap.data();
       nombreInvitado.textContent = data.nombre || "Invitado";
+
+      // 🔹 Generar dinámicamente el select según maxInvitados
+      selectInvitados.innerHTML = ""; // limpiamos primero
+      const max = data.maxInvitados || 1;
+      for (let i = 1; i <= max; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.textContent = i === 1 ? "1 Persona" : `${i} Personas`;
+        selectInvitados.appendChild(option);
+      }
     } else {
       nombreInvitado.textContent = "Invitado";
+      selectInvitados.innerHTML = "<option value='1'>1 Persona</option>";
     }
   }
 
@@ -245,7 +257,7 @@ h3 {
   // Confirmación de asistencia
   const btnConfirmar = document.getElementById("btnConfirmar");
   btnConfirmar.addEventListener("click", async () => {
-    const numPersonas = document.getElementById("invitadosSelect").value;
+    const numPersonas = selectInvitados.value;
     try {
       await addDoc(collection(db, "confirmaciones"), {
         invitadoID,
@@ -261,3 +273,4 @@ h3 {
 </script>
 </body>
 </html>
+
