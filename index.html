@@ -12,26 +12,25 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-/* Video de fondo centrado */
+/* Video de fondo */
 #fondoVideo {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: 0;
+  bottom: 0;
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
   z-index: -2;
 }
 
-/* Overlay para mejorar legibilidad */
+/* Overlay */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.2); 
+  background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
   z-index: -1;
 }
@@ -46,7 +45,7 @@ body {
   min-height: 100vh;
   text-align: center;
   padding: 1rem;
-  color: #960018; /* rojo intenso para texto general */
+  color: #960018;
 }
 
 /* Tarjeta de invitación */
@@ -57,7 +56,6 @@ body {
   padding: 2rem;
   box-shadow: 0 8px 25px rgba(0,0,0,0.25);
   animation: fadeIn 2s ease-in-out;
-  color: #960018; /* asegurar que todo dentro sea rojo */
 }
 
 /* Títulos */
@@ -65,19 +63,19 @@ h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 3rem;
   margin-bottom: 0.2rem;
-  color: #960018; /* rojo intenso */
+  color: #be185d;
 }
 h2 {
   font-family: 'Dancing Script', cursive;
   font-size: 2rem;
   margin-top: 0;
-  color: #960018; /* rojo intenso */
+  color: #6b21a8;
 }
 h3 {
   font-family: 'Dancing Script', cursive;
   font-size: 1.5rem;
   margin: 0.5rem 0;
-  color: #960018; /* rojo intenso */
+  color: #960018;
 }
 
 /* Separadores decorativos */
@@ -86,7 +84,7 @@ h3 {
   height: 2px;
   width: 80%;
   margin: 2rem auto;
-  background: linear-gradient(to right, transparent, #960018, transparent); /* rojo degradado */
+  background: linear-gradient(to right, transparent, #ec4899, transparent);
 }
 
 /* Contador */
@@ -94,7 +92,7 @@ h3 {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 1rem 0;
-  color: #960018; /* rojo intenso */
+  color: #960018;
 }
 
 /* Botones */
@@ -102,7 +100,7 @@ h3 {
   font-family: 'Dancing Script', cursive;
   font-size: 1.1rem;
   color: #fff;
-  background: #960018; /* rojo sólido */
+  background: linear-gradient(45deg, #ec4899, #f9a8d4);
   border: none;
   padding: 0.8rem 1.6rem;
   border-radius: 999px;
@@ -114,7 +112,6 @@ h3 {
 .btn:hover {
   transform: scale(1.08);
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  background: #d50000; /* rojo más oscuro al pasar mouse */
 }
 
 /* Animaciones */
@@ -133,7 +130,7 @@ h3 {
 </head>
 <body>
 
-<!-- Video de fondo silencioso -->
+<!-- Video de fondo -->
 <video autoplay muted loop id="fondoVideo">
   <source src="video-fondo.mp4" type="video/mp4">
   Tu navegador no soporta videos HTML5
@@ -157,12 +154,7 @@ h3 {
 
   <!-- Selección de invitados -->
   <p>¿Cuántos asistirán?</p>
-  <select id="invitadosSelect">
-    <option value="1">1 Persona</option>
-    <option value="2">2 Personas</option>
-    <option value="3">3 Personas</option>
-    <option value="4">4 Personas</option>
-  </select>
+  <select id="invitadosSelect"></select>
 
   <br><br>
 
@@ -179,103 +171,122 @@ h3 {
   <a href="https://maps.app.goo.gl/dE5ZwpyMcKssvmyQ6" target="_blank" class="btn">📍 Ver Ubicación del Salón</a>
 </div>
 
-<!-- Música separada -->
+<!-- Música -->
 <audio id="musicaFondo" loop>
   <source src="a-thousand-years.mp3" type="audio/mp3">
 </audio>
 
 <!-- Firebase -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCH6S96lGMbUManPhCkXqHFQGPCdJ_7hkg",
-    authDomain: "invitacion-boda-14.firebaseapp.com",
-    projectId: "invitacion-boda-14",
-    storageBucket: "invitacion-boda-14.firebasestorage.app",
-    messagingSenderId: "792408500001",
-    appId: "1:792408500001:web:7c0998db3821fe03280060"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCH6S96lGMbUManPhCkXqHFQGPCdJ_7hkg",
+  authDomain: "invitacion-boda-14.firebaseapp.com",
+  projectId: "invitacion-boda-14",
+  storageBucket: "invitacion-boda-14.firebasestorage.app",
+  messagingSenderId: "792408500001",
+  appId: "1:792408500001:web:7c0998db3821fe03280060"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const invitadoID = urlParams.get('id') || 'fam1'; // default fam1 si no hay ID
+const urlParams = new URLSearchParams(window.location.search);
+const invitadoID = urlParams.get('id') || 'fam1'; // default fam1 si no hay ID
+const nombreInvitado = document.getElementById('nombreInvitado');
+const select = document.getElementById("invitadosSelect");
+const btnConfirmar = document.getElementById("btnConfirmar");
 
-  const nombreInvitado = document.getElementById('nombreInvitado');
-  const selectInvitados = document.getElementById("invitadosSelect");
-
-  async function cargarInvitado() {
-    const docRef = doc(db, "invitados", invitadoID);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      nombreInvitado.textContent = data.nombre || "Invitado";
-
-      // 🔹 Generar dinámicamente el select según maxInvitados
-      selectInvitados.innerHTML = ""; // limpiamos primero
-      const max = data.maxInvitados || 1;
-      for (let i = 1; i <= max; i++) {
-        const option = document.createElement("option");
-        option.value = i;
-        option.textContent = i === 1 ? "1 Persona" : `${i} Personas`;
-        selectInvitados.appendChild(option);
-      }
-    } else {
-      nombreInvitado.textContent = "Invitado";
-      selectInvitados.innerHTML = "<option value='1'>1 Persona</option>";
+// Cargar invitado y generar select dinámico según maxInvitados
+async function cargarInvitado() {
+  const docRef = doc(db, "invitados", invitadoID);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    nombreInvitado.textContent = data.nombre || "Invitado";
+    const max = data.maxInvitados || 1;
+    select.innerHTML = "";
+    for (let i = 1; i <= max; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = i === 1 ? "1 Persona" : `${i} Personas`;
+      select.appendChild(option);
     }
+  } else {
+    nombreInvitado.textContent = "Invitado";
+    select.innerHTML = "<option value='1'>1 Persona</option>";
+  }
+}
+
+// Verificar si ya confirmó
+async function verificarConfirmacion() {
+  const docRef = doc(db, "confirmaciones", invitadoID); // usamos invitadoID como ID único
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    select.disabled = true;
+    btnConfirmar.disabled = true;
+    alert("Ya confirmaste tu asistencia. ¡Gracias! 😄");
+  }
+}
+
+cargarInvitado();
+verificarConfirmacion();
+
+// Contador de días
+const fechaBoda = new Date("Feb 14, 2026 18:00:00").getTime();
+const contador = document.getElementById("contador");
+setInterval(() => {
+  const ahora = new Date().getTime();
+  const diff = fechaBoda - ahora;
+  const meses = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+  const dias = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+  contador.innerHTML = `${meses} meses ${dias} días ${horas}h ${minutos}m ${segundos}s`;
+}, 1000);
+
+// Botón de música
+const btnMusica = document.getElementById("btnMusica");
+const musica = document.getElementById("musicaFondo");
+btnMusica.addEventListener("click", () => {
+  if (musica.paused) {
+    musica.play();
+    btnMusica.textContent = "🔇 Pausar Música";
+  } else {
+    musica.pause();
+    btnMusica.textContent = "🎵 Reproducir Música";
+  }
+});
+
+// Confirmar asistencia
+btnConfirmar.addEventListener("click", async () => {
+  const numPersonas = parseInt(select.value);
+  const docRef = doc(db, "confirmaciones", invitadoID);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    alert("Ya confirmaste tu asistencia. ¡Gracias! 😄");
+    return;
   }
 
-  cargarInvitado();
-
-  // Contador de días
-  const fechaBoda = new Date("Feb 14, 2026 18:00:00").getTime();
-  const contador = document.getElementById("contador");
-  setInterval(() => {
-    const ahora = new Date().getTime();
-    const diff = fechaBoda - ahora;
-    const meses = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
-    const dias = Math.floor((diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const segundos = Math.floor((diff % (1000 * 60)) / 1000);
-    contador.innerHTML = `${meses} meses ${dias} días ${horas}h ${minutos}m ${segundos}s`;
-  }, 1000);
-
-  // Botón de música
-  const btnMusica = document.getElementById("btnMusica");
-  const musica = document.getElementById("musicaFondo");
-  btnMusica.addEventListener("click", () => {
-    if (musica.paused) {
-      musica.play();
-      btnMusica.textContent = "🔇 Pausar Música";
-    } else {
-      musica.pause();
-      btnMusica.textContent = "🎵 Reproducir Música";
-    }
-  });
-
-  // Confirmación de asistencia
-  const btnConfirmar = document.getElementById("btnConfirmar");
-  btnConfirmar.addEventListener("click", async () => {
-    const numPersonas = selectInvitados.value;
-    try {
-      await addDoc(collection(db, "confirmaciones"), {
-        invitadoID,
-        numPersonas: parseInt(numPersonas),
-        timestamp: serverTimestamp()
-      });
-      alert(`¡Gracias por confirmar! Número de invitados: ${numPersonas}`);
-    } catch (error) {
-      console.error("Error al guardar confirmación:", error);
-      alert("Ocurrió un error, intenta nuevamente.");
-    }
-  });
+  try {
+    await setDoc(docRef, {
+      invitadoID,
+      numPersonas,
+      confirmado: true,
+      timestamp: serverTimestamp()
+    });
+    alert(`¡Gracias por confirmar! Número de invitados: ${numPersonas}`);
+    select.disabled = true;
+    btnConfirmar.disabled = true;
+  } catch (error) {
+    console.error("Error al guardar confirmación:", error);
+    alert("Ocurrió un error, intenta nuevamente.");
+  }
+});
 </script>
 </body>
 </html>
-
-
