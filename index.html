@@ -12,11 +12,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-/* Video de fondo */
+/* Video de fondo centrado */
 #fondoVideo {
   position: fixed;
-  right: 0;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
   object-fit: cover;
@@ -45,7 +46,7 @@ body {
   min-height: 100vh;
   text-align: center;
   padding: 1rem;
-  color: #960018;
+  color: #960018; /* rojo intenso para texto general */
 }
 
 /* Tarjeta de invitación */
@@ -56,6 +57,7 @@ body {
   padding: 2rem;
   box-shadow: 0 8px 25px rgba(0,0,0,0.25);
   animation: fadeIn 2s ease-in-out;
+  color: #960018; /* asegurar que todo dentro sea rojo */
 }
 
 /* Títulos */
@@ -63,19 +65,19 @@ h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 3rem;
   margin-bottom: 0.2rem;
-  color: #be185d;
+  color: #960018; /* rojo intenso */
 }
 h2 {
   font-family: 'Dancing Script', cursive;
   font-size: 2rem;
   margin-top: 0;
-  color: #6b21a8;
+  color: #960018; /* rojo intenso */
 }
 h3 {
   font-family: 'Dancing Script', cursive;
   font-size: 1.5rem;
   margin: 0.5rem 0;
-  color: #960018;
+  color: #960018; /* rojo intenso */
 }
 
 /* Separadores decorativos */
@@ -84,7 +86,7 @@ h3 {
   height: 2px;
   width: 80%;
   margin: 2rem auto;
-  background: linear-gradient(to right, transparent, #ec4899, transparent);
+  background: linear-gradient(to right, transparent, #960018, transparent); /* rojo degradado */
 }
 
 /* Contador */
@@ -92,6 +94,7 @@ h3 {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 1rem 0;
+  color: #960018; /* rojo intenso */
 }
 
 /* Botones */
@@ -99,7 +102,7 @@ h3 {
   font-family: 'Dancing Script', cursive;
   font-size: 1.1rem;
   color: #fff;
-  background: linear-gradient(45deg, #ec4899, #f9a8d4);
+  background: #960018; /* rojo sólido */
   border: none;
   padding: 0.8rem 1.6rem;
   border-radius: 999px;
@@ -111,6 +114,7 @@ h3 {
 .btn:hover {
   transform: scale(1.08);
   box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  background: #d50000; /* rojo más oscuro al pasar mouse */
 }
 
 /* Animaciones */
@@ -273,4 +277,5 @@ h3 {
 </script>
 </body>
 </html>
+
 
